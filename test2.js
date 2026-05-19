@@ -1,3 +1,7 @@
-const numsCopy = require('./test') 
+const { nums, letters } = require('./test') 
 
-console.log(numsCopy)
+console.log(nums, letters)
+
+const os = require('os')
+
+console.log(os.platform(), os.homedir())

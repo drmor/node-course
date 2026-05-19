@@ -1,4 +1,6 @@
 const nums = [1, 2, 3, 4, 5]
+const letters = ['a', 'b', 'c', 'd', 'e']
 
-console.log(nums)
-module.exports = nums
+module.exports = {
+    nums, letters
+}
