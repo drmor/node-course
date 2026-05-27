@@ -1,4 +1,5 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
   console.log(req.url, req.method);
@@ -7,9 +8,16 @@ const server = http.createServer((req, res) => {
 
   res.setHeader('Content-Type', 'text/html');
 
-  res.write('<p>Hello, world</p>');
-  res.write('<p>Hello, world ver 2</p>');
-  res.end();
+  // sent an html file
+  fs.readFile('./views/index.html', (err, data) => {
+    if (err) {
+      console.log(err);
+      res.end();
+    } else {
+      // res.write(data); we can use end with inly one file
+      res.end(data);
+    }
+  });
 });
 
 server.listen(3000, 'localhost', () => {
