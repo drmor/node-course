@@ -10,12 +10,15 @@ app.set('view engine', 'ejs');
 app.listen(3000);
 
 app.get('/', (req, res) => {
-  //res.send('<p>home page</p>');
-  res.render('index', { title: 'Home' });
+  const blogs = [
+    { title: 'first', snippet: 'Some text for first' },
+    { title: 'second', snippet: 'Some text for second' },
+    { title: 'third', snippet: 'Some text for third' },
+  ];
+  res.render('index', { title: 'Home', blogs });
 });
 
 app.get('/about', (req, res) => {
-  //res.send('<p>about page</p>');
   res.render('about', { title: 'About' });
 });
 
