@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const Blog = require('./models/blog');
 
 //connect to modgoDB
 const dbURI =
@@ -18,17 +19,63 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(express.static('public'));
 
+// mongoose and mongo sandbox routes
+app.get('/add-blog', (req, res) => {
+  const blog = new Blog({
+    title: 'new blog 2',
+    snippet: 'about this blog',
+    body: 'more about',
+  });
+
+  blog
+    .save()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/all-blogs', (req, res) => {
+  Blog.find()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/single-blog', (req, res) => {
+  Blog.findById('6a2d9b3c7c56ccb7e01e560b')
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// routes
 app.get('/', (req, res) => {
-  const blogs = [
-    { title: 'first', snippet: 'Some text for first' },
-    { title: 'second', snippet: 'Some text for second' },
-    { title: 'third', snippet: 'Some text for third' },
-  ];
-  res.render('index', { title: 'Home', blogs });
+  res.redirect('/blogs');
 });
 
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
+});
+
+// blog routes
+app.get('/blogs', (req, res) => {
+  Blog.find()
+    .sort({ createdAt: -1 })
+    .then((result) => {
+      res.render('index', { title: 'All blogs', blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get('/blogs/create', (req, res) => {
