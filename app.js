@@ -1,14 +1,18 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
+//connect to modgoDB
+const dbURI =
+  'mongodb+srv://ne_uchi:Green123@cluster0.znlaz0w.mongodb.net/note-tuts?appName=cluster0';
+mongoose
+  .connect(dbURI)
+  .then((result) => app.listen(3000))
+  .catch((err) => console.log(err));
 // register view engine
 
 app.set('view engine', 'ejs');
-
-//listen for requests
-
-app.listen(3000);
 
 // middleware & static files
 app.use(morgan('dev'));
